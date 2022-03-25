@@ -21,7 +21,7 @@ public class G052 {
 
         // Checking the correct number of parameters
         if (args.length != 4) {
-            throw new IllegalArgumentException("USAGE: num_partitions file_path");
+            throw new IllegalArgumentException("USAGE: K H S dataset_path");
         }
 
         // Setting up Spark
