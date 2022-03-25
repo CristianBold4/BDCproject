@@ -59,7 +59,7 @@ public class G052 {
 
                     String[] tokens = transaction.split(",");
 
-                    // parsing tokens (if you want, delete useful vars e.g. description, date and time, etc)
+                    // parsing tokens (if you want, delete useless vars e.g. description, date and time, etc)
                     String transactionID = tokens[0];
                     String productID = tokens[1];
                     String description = tokens[2];
