@@ -97,6 +97,52 @@ public class G052 {
         // Debugging prints
         System.out.println("Number of transaction after R1: " + productCustomer.count());
 
+        //RDD <P,Popularity>
+        JavaPairRDD<String, Integer> productPopularity1;
+
+        //Point 3 - mapPartitionsToPair
+        productPopularity1 = productCustomer
+                .mapPartitionsToPair((element) -> { // <- reduce phase R2
+
+                    //hashMap to count the number of customer for each product
+                    HashMap<String, Integer> counts = new HashMap<>();
+                    while(element.hasNext()){
+                        Tuple2<String,Integer> tuple = element.next();
+                        counts.put(tuple._1(), 1 + counts.getOrDefault(tuple._1(), 0));
+                    }
+
+                    //ArrayList to store the new pairs (productId, popularity)
+                    ArrayList<Tuple2<String, Integer>> productPopularityPairs = new ArrayList<>();
+                    for (Map.Entry<String, Integer> e : counts.entrySet()){
+                        productPopularityPairs.add(new Tuple2<>(e.getKey(), e.getValue()));
+                    }
+                    return productPopularityPairs.iterator();
+                })
+                .reduceByKey((x,y) -> x+y); // <- GroupByKey plus mapValues
+
+
+        //Point 5 - extraction of the top H products
+        if(H > 0){
+            List<Tuple2<String, Integer>> topH = productPopularity1
+                    //swap (key, value) to (value, key)
+                    .mapToPair((element) -> element.swap())
+
+                    //sort by descending order
+                    .sortByKey(false)
+
+                    //swap the previous (value, key) to (key, value) again
+                    .mapToPair((element) -> element.swap())
+
+                    //takes the first H elements
+                    .take(H);
+            System.out.println(topH);
+        }
+
+        //Point 6 - debug
+        if(H == 0){
+            List<Tuple2<String, Integer>> sorted = productPopularity1.sortByKey(true).collect();
+            System.out.println(sorted);
+        }
 
         /** WORDCOUNT CODE (to be deleted)
 
