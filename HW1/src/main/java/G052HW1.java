@@ -2,20 +2,12 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.sources.In;
-import org.apache.spark.storage.StorageLevel;
-import scala.Array;
-import scala.Int;
 import scala.Tuple2;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
 
-public class G052 {
+public class G052HW1 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         // HOMEWORK 1
 
@@ -48,7 +40,7 @@ public class G052 {
         System.out.println("Number of rows = " + numTransaction);
 
 
-        // RDD <P,C>
+        // RDD <Product, Customer>
         JavaPairRDD<String, Integer> productCustomer;
 
 
@@ -57,13 +49,9 @@ public class G052 {
 
                     String[] tokens = transaction.split(",");
 
-                    // parsing tokens (if you want, delete useless vars e.g. description, date and time, etc)
-                    String transactionID = tokens[0];
+                    // parsing tokens
                     String productID = tokens[1];
-                    String description = tokens[2];
                     int quantity = Integer.parseInt(tokens[3]);
-                    String invoiceDate = tokens[4];
-                    double unitPrice = Double.parseDouble(tokens[5]);
                     int customerID = Integer.parseInt(tokens[6]);
                     String country = tokens[7];
 
@@ -86,7 +74,6 @@ public class G052 {
                     // list where to add each pair <Product, Customer>
                     ArrayList<Tuple2<String, Integer>> productCustomersPairs = new ArrayList<>();
                     productCustomersPairs.add(element._1());
-
 
                     return productCustomersPairs.iterator();
 
@@ -122,7 +109,7 @@ public class G052 {
         //Point 4 - mapToPair
         JavaPairRDD<String, Integer> productPopularity2 = productCustomer
                 .mapToPair((element) -> { // <- reduce phase R2
-                    return new Tuple2<String, Integer>(element._1(), 1);
+                    return new Tuple2<>(element._1(), 1);
                 }).reduceByKey((x,y)->x+y);
 
 
