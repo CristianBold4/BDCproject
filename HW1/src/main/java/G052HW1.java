@@ -137,11 +137,13 @@ public class G052HW1 {
 
         //Point 6 - debug
         if(H == 0){
+            System.out.println("productPopularity1:");
             List<Tuple2<String, Integer>> sorted = productPopularity1.sortByKey(true).collect();
             for(Tuple2<String, Integer> t:sorted){
                 System.out.print("Product "+t._1()+" Popularity "+ t._2()+"; ");
             }
             System.out.println();
+            System.out.println("productPopularity2:");
             sorted = productPopularity2.sortByKey(true).collect();
             for(Tuple2<String, Integer> t:sorted){
                 System.out.print("Product "+t._1()+" Popularity "+ t._2()+"; ");
