@@ -5,15 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
 
 
 public class G052HW2 {
 
-    // -- DRAFT @Cristian
+    // ComputeObjective function
     public static double ComputeObjective(ArrayList<Vector> P, ArrayList<Vector> S, double z) {
 
         // -- number of centers
@@ -29,6 +26,7 @@ public class G052HW2 {
             for (Vector y : S) {
                 current_dist = Math.sqrt(Vectors.sqdist(x, y));
                 if (current_dist < min_dist) {
+                    //System.out.println("Min distance -> " + current_dist);
                     min_dist = current_dist;
                 }
             }
@@ -39,14 +37,8 @@ public class G052HW2 {
         // -- Sort the distances
         Collections.sort(distances);
 
-
         // -- return the largest distance excluding the z-largest ones
-        int i = 0;
-        while (i < distances.size() && distances.get(i) <= z) {
-            i++;
-        }
-
-        return distances.get(i - 1);
+        return(distances.get(distances.size() - (int)z - 1));
 
     }
 
@@ -225,7 +217,7 @@ public class G052HW2 {
         double objective = ComputeObjective(inputPoints,solution,z);
 
         System.out.println("Objective function = " + objective);
-        System.out.println("Time of SeqWeightedOutliers =" + (end - start)/1000000);
+        System.out.println("Time of SeqWeightedOutliers = " + (end - start)/1000000);
 
     }
 
