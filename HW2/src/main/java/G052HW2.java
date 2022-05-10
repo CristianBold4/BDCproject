@@ -11,6 +11,8 @@ import java.util.*;
 
 public class G052HW2 {
 
+    public static long time;
+
     // -- DRAFT @Cristian 
     public static double ComputeObjective(ArrayList<Vector> P, ArrayList<Vector> S, double z) {
 
@@ -40,7 +42,7 @@ public class G052HW2 {
 
         // -- return the largest distance excluding the z-largest ones
         int i = 0;
-        while (distances.get(i) <= z) {
+        while (i < distances.size() && distances.get(i) <= z) {
             i++;
         }
 
@@ -60,6 +62,9 @@ public class G052HW2 {
      * @return  the set of k centers
      */
     public static ArrayList<Vector> SeqWeightedOutliers(ArrayList<Vector> P,ArrayList<Long> W, int k,int z, float alpha){
+
+        time = System.nanoTime();
+
         double r=Math.sqrt(Vectors.sqdist(P.get(0), P.get(1)));
         for(int i=0;i<=k+z+1;i++){
             for(int j=i+1;j<=k+z;j++){
@@ -67,8 +72,10 @@ public class G052HW2 {
             }
         }
         r/=2;
-        //Just for testing purposes
-        System.out.println("GUESS"+r);
+
+        System.out.println("Initial guess = " + r);
+
+        int guess = 1;
 
         while(true){
 
@@ -110,11 +117,14 @@ public class G052HW2 {
                 }
             }
             if(Wz<=z){
-                System.out.println(r);
+                System.out.println("Final guess = " + r);
+                System.out.println("Number of guesses = " + guess);
+                time = System.nanoTime() - time;
                 return S;
             }
             else{
                 r*=2;
+                guess++;
                 //Just for testing purposes
                 System.out.println("GUESS"+r);
             }
@@ -173,16 +183,50 @@ public class G052HW2 {
     }
 
 
+
+
     public static void main(String[] args) throws IOException{
 
-        //EVERYTHING HERE WAS JUST TO TEST THE FUNCTION
-        ArrayList<Vector> points=readVectorsSeq("PATH");
-        ArrayList<Long> weights=new ArrayList<>();
-        for(Vector p:points){
+        // HOMEWORK 2
+
+        // Checking the correct number of parameters
+        if (args.length != 3) {
+            throw new IllegalArgumentException("USAGE: dataset_path k z");
+        }
+
+        // Reading input
+
+        // dataset path
+        String s = args[0];
+
+        // number of centers
+        int k = Integer.parseInt(args[1]);
+
+        // number of allowed outliers
+        int z = Integer.parseInt(args[2]);
+
+        // Read the points in the input file
+        ArrayList<Vector> inputPoints = readVectorsSeq(s);
+
+        // Initializes the weights
+        ArrayList<Long> weights = new ArrayList<>();
+        for(Vector p : inputPoints){
             weights.add(1L);
         }
-        SeqWeightedOutliers(points,weights,9,300,0);
-        // -- HOMEWORK 2
+
+        System.out.println("Input size n = " + inputPoints.size());
+        System.out.println("Number of centers k = " + k);
+        System.out.println("Number of outliers z = " + z);
+
+        // Computes a set of (at most) k centers
+        ArrayList<Vector> solution = SeqWeightedOutliers(inputPoints,weights,k,z,0);
+
+        // Computes the objective function
+        double objective = ComputeObjective(inputPoints,solution,z);
+
+        System.out.println("Objective function = " + objective);
+        System.out.println("Time of SeqWeightedOutliers =" + time/1000000);
+
     }
 
 }
