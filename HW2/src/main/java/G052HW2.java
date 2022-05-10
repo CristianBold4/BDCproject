@@ -1,17 +1,17 @@
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.Map;
 
 
 public class G052HW2 {
-
-    public static long time;
 
     // -- DRAFT @Cristian 
     public static double ComputeObjective(ArrayList<Vector> P, ArrayList<Vector> S, double z) {
@@ -63,7 +63,6 @@ public class G052HW2 {
      */
     public static ArrayList<Vector> SeqWeightedOutliers(ArrayList<Vector> P,ArrayList<Long> W, int k,int z, float alpha){
 
-        time = System.nanoTime();
 
         double r=Math.sqrt(Vectors.sqdist(P.get(0), P.get(1)));
         for(int i=0;i<=k+z+1;i++){
@@ -119,14 +118,11 @@ public class G052HW2 {
             if(Wz<=z){
                 System.out.println("Final guess = " + r);
                 System.out.println("Number of guesses = " + guess);
-                time = System.nanoTime() - time;
                 return S;
             }
             else{
                 r*=2;
                 guess++;
-                //Just for testing purposes
-                System.out.println("GUESS"+r);
             }
         }
 
@@ -218,14 +214,18 @@ public class G052HW2 {
         System.out.println("Number of centers k = " + k);
         System.out.println("Number of outliers z = " + z);
 
+        long start = System.nanoTime();
+
         // Computes a set of (at most) k centers
         ArrayList<Vector> solution = SeqWeightedOutliers(inputPoints,weights,k,z,0);
+
+        long end = System.nanoTime();
 
         // Computes the objective function
         double objective = ComputeObjective(inputPoints,solution,z);
 
         System.out.println("Objective function = " + objective);
-        System.out.println("Time of SeqWeightedOutliers =" + time/1000000);
+        System.out.println("Time of SeqWeightedOutliers =" + (end - start)/1000000);
 
     }
 
