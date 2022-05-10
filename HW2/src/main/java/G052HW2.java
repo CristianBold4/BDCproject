@@ -7,7 +7,7 @@ import java.util.Collections;
 
 public class G052HW2 {
 
-    // -- DRAFT @Cristian 
+    // -- DRAFT @Cristian
     public static double ComputeObjective(ArrayList<Vector> P, ArrayList<Vector> S, double z) {
 
         // -- number of centers
