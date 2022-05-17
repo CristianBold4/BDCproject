@@ -142,7 +142,6 @@ public class G052HW2 {
      * Converts a {@code String} to {@code Vector}
      * @param str the {@code String} to convert
      * @return  the {@code Vector} obtained from the given {@code String}
-     * @throws IOException
      */
     public static Vector strToVector(String str) {
         String[] tokens = str.split(",");
@@ -157,7 +156,7 @@ public class G052HW2 {
      * Reads a file and creates the corresponding list of points
      * @param filename  the path to the file
      * @return  the list of points read
-     * @throws IOException
+     * @throws IOException  if it's not possible to read the file
      */
     public static ArrayList<Vector> readVectorsSeq(String filename) throws IOException {
         if (Files.isDirectory(Paths.get(filename))) {
