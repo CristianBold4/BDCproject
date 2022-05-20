@@ -1,3 +1,4 @@
+import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
@@ -9,9 +10,7 @@ import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
 import scala.Tuple2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class G052HW3 {
 
@@ -103,6 +102,10 @@ public class G052HW3 {
 
     public static ArrayList<Vector> MR_kCenterOutliers(JavaRDD<Vector> points, int k, int z, int L) {
 
+        long initial_time, final_time, total_time;
+
+
+        initial_time = System.nanoTime();
         //------------- ROUND 1 ---------------------------
 
         JavaRDD<Tuple2<Vector, Long>> coreset = points.mapPartitions(x ->
@@ -119,16 +122,42 @@ public class G052HW3 {
             return c_w.iterator();
         }); // END OF ROUND 1
 
+
         //------------- ROUND 2 ---------------------------
+
 
         ArrayList<Tuple2<Vector, Long>> elems = new ArrayList<>((k + z) * L);
         elems.addAll(coreset.collect());
+
+        final_time = System.nanoTime();
+        total_time = final_time - initial_time;
+
+        System.out.println("Time Round 1: " + total_time / 10e6  + " ms");
+
+        initial_time = System.nanoTime();
         //
         // ****** ADD YOUR CODE
         // ****** Compute the final solution (run SeqWeightedOutliers with alpha=2)
         // ****** Measure and print times taken by Round 1 and Round 2, separately
         // ****** Return the final solution
         //
+        ArrayList<Vector> vecs = new ArrayList<>();
+        ArrayList<Long> weights = new ArrayList<>();
+
+        for (Tuple2<Vector, Long> t : elems) {
+            vecs.add(t._1());
+            weights.add(t._2);
+        }
+
+        ArrayList<Vector> centers = SeqWeightedOutliers(vecs, weights, k, z , 2);
+        final_time = System.nanoTime();
+
+        total_time = final_time - initial_time;
+
+        System.out.println("Time Round 2: " + total_time / 10e6  + " ms");
+
+        return centers;
+
     }
 
 // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -200,6 +229,101 @@ public class G052HW3 {
     // ****** ADD THE CODE FOR SeqWeightedOuliers from HW2
     //
 
+    /**
+     * Computes and returns the set of centers according to the algorithm implemented to solve the
+     * k-center with z outliers problem.
+     *
+     * @param P     the set of points
+     * @param W     the set of weights
+     * @param k     the number of centers
+     * @param z     the number of outliers
+     * @param alpha the coefficient used by the algorithm
+     * @return the set of k centers
+     */
+    public static ArrayList<Vector> SeqWeightedOutliers(ArrayList<Vector> P, ArrayList<Long> W, int k, int z, float alpha) {
+
+
+        double r = Math.sqrt(Vectors.sqdist(P.get(0), P.get(1)));
+        for (int i = 0; i <= k + z + 1; i++) {
+            for (int j = i + 1; j <= k + z; j++) {
+                r = Math.min(r, Math.sqrt(Vectors.sqdist(P.get(i), P.get(j))));
+            }
+        }
+        r /= 2;
+
+        System.out.println("Initial guess = " + r);
+
+        int guess = 1;
+
+        while (true) {
+
+            ArrayList<Vector> Z = new ArrayList<>(P);
+            ArrayList<Vector> S = new ArrayList<>();
+            //The set of weights associated to each point in Z at the same index
+            ArrayList<Long> weightsZ = new ArrayList<>(W);
+            long Wz = 0;
+            for (Long weight : W) {
+                Wz += weight;
+            }
+            while ((S.size() < k) && (Wz > 0)) {
+                long max = 0;
+                int new_center_index = -1;
+                for (int i = 0; i < P.size(); i++) {
+                    Map<Integer, Vector> Bz = computeBall(Z, P.get(i), (1 + 2 * alpha) * r);
+                    long ball_weight = 0;
+                    for (Integer index : Bz.keySet()) {
+                        ball_weight += weightsZ.get(index);
+                    }
+                    if (ball_weight > max) {
+                        max = ball_weight;
+                        new_center_index = i;
+                    }
+                }
+                S.add(P.get(new_center_index));
+
+                Map<Integer, Vector> Bz = computeBall(Z, P.get(new_center_index), (3 + 4 * alpha) * r);
+
+                //Get all the points to be removed from Z according to Bz
+                ArrayList<Integer> indexToRemove = new ArrayList<>(Bz.keySet());
+                Collections.sort(indexToRemove);
+
+                //Safely remove from last to first to avoid problems when shifting elements inside arraylist
+                for (int i = indexToRemove.size() - 1; i >= 0; i--) {
+                    Z.remove((int) indexToRemove.get(i));
+                    Wz -= weightsZ.get(indexToRemove.get(i));
+                    weightsZ.remove((int) indexToRemove.get(i));
+                }
+            }
+            if (Wz <= z) {
+                System.out.println("Final guess = " + r);
+                System.out.println("Number of guesses = " + guess);
+                return S;
+            } else {
+                r *= 2;
+                guess++;
+            }
+        }
+
+    }
+
+    /**
+     * Computes the ball of {@code Z} with radius {@code r} centered at {@code ballCenter}
+     *
+     * @param Z          the subset of considered points
+     * @param ballCenter the center of the ball
+     * @param r          the radius
+     * @return the set of points inside the given ball with their corresponding indexes
+     */
+    private static Map<Integer, Vector> computeBall(ArrayList<Vector> Z, Vector ballCenter, double r) {
+        Map<Integer, Vector> Bz = new Hashtable<>();
+        for (int i = 0; i < Z.size(); i++) {
+            if (Math.sqrt(Vectors.sqdist(ballCenter, Z.get(i))) <= r) {
+                Bz.put(i, Z.get(i));
+            }
+        }
+        return Bz;
+    }
+
 
 // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 // Method computeObjective: computes objective function
@@ -210,6 +334,34 @@ public class G052HW3 {
         //
         // ****** ADD THE CODE FOR computeObjective
         //
+
+        double min_dist, current_dist;
+
+
+        // -- list where to store distances
+        ArrayList<Double> distances = new ArrayList<>();
+
+        // -- compute all distances, for each z x in P, from S
+        for (Vector x : points.collect()) {
+            min_dist = Double.POSITIVE_INFINITY;
+            for (Vector y : centers) {
+                current_dist = euclidean(x, y);
+                if (current_dist < min_dist) {
+                    //System.out.println("Min distance -> " + current_dist);
+                    min_dist = current_dist;
+                }
+            }
+
+            distances.add(min_dist);
+        }
+
+        // -- Sort the distances
+        Collections.sort(distances);
+
+        //System.out.println(Arrays.toString(distances.toArray()));
+
+        // -- return the largest distance excluding the z-largest ones
+        return (distances.get(distances.size() - z - 1));
 
 
     }
