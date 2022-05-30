@@ -49,7 +49,7 @@ public class G052HW3 {
         long N = inputPoints.count();
         end = System.currentTimeMillis();
 
-        // ----- Pring input parameters
+        // ----- Print input parameters
         System.out.println("File : " + filename);
         System.out.println("Number of points N = " + N);
         System.out.println("Number of centers k = " + k);
@@ -102,10 +102,11 @@ public class G052HW3 {
 
     public static ArrayList<Vector> MR_kCenterOutliers(JavaRDD<Vector> points, int k, int z, int L) {
 
-        long initial_time, final_time, total_time;
+        long initial_time1, final_time1, total_time1;
+        long initial_time2, final_time2, total_time2;
 
 
-        initial_time = System.nanoTime();
+        initial_time1 = System.nanoTime();
         //------------- ROUND 1 ---------------------------
 
         JavaRDD<Tuple2<Vector, Long>> coreset = points.mapPartitions(x ->
@@ -129,12 +130,11 @@ public class G052HW3 {
         ArrayList<Tuple2<Vector, Long>> elems = new ArrayList<>((k + z) * L);
         elems.addAll(coreset.collect());
 
-        final_time = System.nanoTime();
-        total_time = final_time - initial_time;
+        final_time1 = System.nanoTime();
+        total_time1 = final_time1 - initial_time1;
 
-        System.out.println("Time Round 1: " + total_time / 10e6  + " ms");
 
-        initial_time = System.nanoTime();
+        initial_time2 = System.nanoTime();
         //
         // ****** ADD YOUR CODE
         // ****** Compute the final solution (run SeqWeightedOutliers with alpha=2)
@@ -150,11 +150,12 @@ public class G052HW3 {
         }
 
         ArrayList<Vector> centers = SeqWeightedOutliers(vecs, weights, k, z , 2);
-        final_time = System.nanoTime();
+        final_time2 = System.nanoTime();
 
-        total_time = final_time - initial_time;
+        total_time2 = final_time2 - initial_time2;
 
-        System.out.println("Time Round 2: " + total_time / 10e6  + " ms");
+        System.out.println("Time Round 1: " + total_time1 / 10e6  + " ms");
+        System.out.println("Time Round 2: " + total_time2 / 10e6  + " ms");
 
         return centers;
 
