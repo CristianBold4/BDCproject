@@ -336,14 +336,8 @@ public class G052HW3 {
         // ****** ADD THE CODE FOR computeObjective
         //
 
-        double min_dist, current_dist;
-
-
-        // -- list where to store distances
-        ArrayList<Double> distances = new ArrayList<>();
-
-        // -- compute all distances, for each z x in P, from S
-        for (Vector x : points.collect()) {
+        JavaRDD<Double> distances = points.map( x -> {
+            double current_dist, min_dist;
             min_dist = Double.POSITIVE_INFINITY;
             for (Vector y : centers) {
                 current_dist = euclidean(x, y);
@@ -353,16 +347,12 @@ public class G052HW3 {
                 }
             }
 
-            distances.add(min_dist);
-        }
+            return min_dist;
+        });
 
-        // -- Sort the distances
-        Collections.sort(distances);
+        List<Double> list = distances.sortBy( x -> x, false, 2).take(z + 1);
 
-        //System.out.println(Arrays.toString(distances.toArray()));
-
-        // -- return the largest distance excluding the z-largest ones
-        return (distances.get(distances.size() - z - 1));
+        return list.get(list.size() - 1);
 
 
     }

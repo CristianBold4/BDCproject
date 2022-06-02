@@ -1,0 +1,133 @@
+RUN 1
+
+File : /data/BDC2122/HIGGS10M7D.txt
+Number of points N = 10721407
+Number of centers k = 10
+Number of outliers z = 150
+Number of partitions L = 2
+Time to read from file: 47032 ms
+Initial guess = 1.5441943521981867
+Final guess = 1.5441943521981867
+Number of guesses = 1
+Time Round 1: 4116.0418864 ms
+Time Round 2: 4.6537557 ms
+Objective function = 12.212318096918224
+Time to compute objective function: 20616 ms
+
+*************************************************************
+
+File : /data/BDC2122/HIGGS10M7D.txt
+Number of points N = 10721407
+Number of centers k = 10
+Number of outliers z = 150
+Number of partitions L = 4
+Time to read from file: 30274 ms
+Initial guess = 1.3229227557681746
+Final guess = 1.3229227557681746
+Number of guesses = 1
+Time Round 1: 2120.7133007 ms
+Time Round 2: 9.1208009 ms
+Objective function = 10.461748978516912
+Time to compute objective function: 15500 ms
+
+****************************************************************
+
+
+File : /data/BDC2122/HIGGS10M7D.txt
+Number of points N = 10721407
+Number of centers k = 10
+Number of outliers z = 150
+Number of partitions L = 8
+Time to read from file: 18769 ms
+Initial guess = 1.170426036563503
+Final guess = 1.170426036563503
+Number of guesses = 1
+Time Round 1: 1090.6980599 ms
+Time Round 2: 15.9941452 ms
+Objective function = 9.382966298228432
+Time to compute objective function: 13406 ms
+
+****************************************************************
+
+File : /data/BDC2122/HIGGS10M7D.txt
+Number of points N = 10721407
+Number of centers k = 10
+Number of outliers z = 150
+Number of partitions L = 16
+Time to read from file: 11873 ms
+Initial guess = 1.060461351627508
+Final guess = 1.060461351627508
+Number of guesses = 1
+Time Round 1: 599.6121954 ms
+Time Round 2: 44.3691121 ms
+Objective function = 8.458666655882002
+Time to compute objective function: 14600 ms
+
+*****************************************************************
+
+File : /data/BDC2122/artificial9000.txt
+Number of points N = 9200
+Number of centers k = 9
+Number of outliers z = 200
+Number of partitions L = 2
+Time to read from file: 3688 ms
+Initial guess = 1.9963008290335407
+Final guess = 1.9963008290335407
+Number of guesses = 1
+Time Round 1: 19.694633 ms
+Time Round 2: 4.9840131 ms
+Objective function = 12.603654787401945
+Time to compute objective function: 510 ms
+
+******************************************************************
+
+
+File : /data/BDC2122/artificial9000.txt
+Number of points N = 9200
+Number of centers k = 9
+Number of outliers z = 200
+Number of partitions L = 4
+Time to read from file: 3155 ms
+Initial guess = 1.7253919120014443
+Final guess = 1.7253919120014443
+Number of guesses = 1
+Time Round 1: 14.9171262 ms
+Time Round 2: 9.7511061 ms
+Objective function = 13.260796544702735
+Time to compute objective function: 458 ms
+
+*******************************************************************
+
+
+File : /data/BDC2122/artificial9000.txt
+Number of points N = 9200
+Number of centers k = 9
+Number of outliers z = 200
+Number of partitions L = 8
+Time to read from file: 3531 ms
+Initial guess = 1.5601760317348832
+Final guess = 1.5601760317348832
+Number of guesses = 1
+Time Round 1: 19.2323128 ms
+Time Round 2: 31.5289412 ms
+Objective function = 11.63093964389808
+Time to compute objective function: 484 ms
+
+********************************************************************
+
+
+File : /data/BDC2122/artificial9000.txt
+Number of points N = 9200
+Number of centers k = 9
+Number of outliers z = 200
+Number of partitions L = 16
+Time to read from file: 3617 ms
+Initial guess = 1.2634897110780126
+Final guess = 1.2634897110780126
+Number of guesses = 1
+Time Round 1: 17.0404764 ms
+Time Round 2: 99.894264 ms
+Objective function = 11.874677679836198
+Time to compute objective function: 762 ms
+
+*********************************************************************

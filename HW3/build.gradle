@@ -1,10 +1,6 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
-    }
+plugins {
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "java"
 }
 
 apply plugin: 'com.github.johnrengelman.shadow'
@@ -12,22 +8,23 @@ apply plugin: 'com.github.johnrengelman.shadow'
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
-  mavenCentral()
+    mavenCentral()
 }
 
 compileJava   {
-  sourceCompatibility = '1.8'
-  targetCompatibility = '1.8'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 }
 
 configurations {
     sparkCompile // Configuration for Spark: should be included in the local
-                 // class path both at compilation and at runtime, but should
-                 // be excluded from the fat jar
+    // class path both at compilation and at runtime, but should
+    // be excluded from the fat jar
     shadowCompile // Configuration for things that should be included in the shadow jar.
 }
 
@@ -45,4 +42,3 @@ shadowJar {
     zip64 true
     configurations = [project.configurations.shadowCompile] // Exclude runtime-only path
 }
-
