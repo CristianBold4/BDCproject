@@ -350,9 +350,20 @@ public class G052HW3 {
             return min_dist;
         });
 
+        // FIST IMPLEMENTATION
+        /*
         List<Double> list = distances.sortBy( x -> x, false, 2).take(z + 1);
-
         return list.get(list.size() - 1);
+        */
+
+
+
+
+
+
+
+        // SECOND IMPLEMENTATION
+        return distances.top(z + 1).get(z);
 
 
     }
