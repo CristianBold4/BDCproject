@@ -183,81 +183,124 @@ Time to compute objective function: 563 ms
 
 *********************************************************************
 
+
 File : /data/BDC2122/HIGGS10M7D.txt
 Number of points N = 10721407
 Number of centers k = 10
 Number of outliers z = 150
 Number of partitions L = 16
-Time to read from file: 11794 ms
-Initial guess = 1.0653082379767425
-Final guess = 1.0653082379767425
+Time to read from file: 10324 ms
+Initial guess = 1.0709312730997542
+Final guess = 1.0709312730997542
 Number of guesses = 1
-Time Round 1: 686.0314077 ms
-Time Round 2: 38.3417489 ms
-Objective function = 8.58624076348881
-Time to compute objective function: 608 ms
+Time Round 1: 572.8873551 ms
+Time Round 2: 45.2598131 ms
+Objective function = 8.614350185657146
+Time to compute objective function: 363 ms
+
 
 *********************************************************************
 
 File : /data/BDC2122/artificial9000.txt
 Number of points N = 9200
-Number of centers k = 10
-Number of outliers z = 150
+Number of centers k = 9
+Number of outliers z = 200
 Number of partitions L = 2
-Time to read from file: 3183 ms
-Initial guess = 2.351067523488001
-Final guess = 2.351067523488001
+Time to read from file: 3096 ms
+Initial guess = 1.9384533138561812
+Final guess = 1.9384533138561812
 Number of guesses = 1
-Time Round 1: 16.9560834 ms
-Time Round 2: 3.8581932 ms
-Objective function = 12.85466518428232
-Time to compute objective function: 124 ms
+Time Round 1: 17.9940603 ms
+Time Round 2: 5.3042856 ms
+Objective function = 12.611904416066594
+Time to compute objective function: 135 ms
+
+*********************************************************************
+
+
+File : /data/BDC2122/artificial9000.txt
+Number of points N = 9200
+Number of centers k = 9
+Number of outliers z = 200
+Number of partitions L = 4
+Time to read from file: 3284 ms
+Initial guess = 1.7338861698508345
+Final guess = 1.7338861698508345
+Number of guesses = 1
+Time Round 1: 17.1838381 ms
+Time Round 2: 13.7364332 ms
+Objective function = 12.425223700199526
+Time to compute objective function: 161 ms
+
+*********************************************************************
+
+File : /data/BDC2122/artificial9000.txt
+Number of points N = 9200
+Number of centers k = 9
+Number of outliers z = 200
+Number of partitions L = 8
+Time to read from file: 3306 ms
+Initial guess = 1.571628534355369
+Final guess = 1.571628534355369
+Number of guesses = 1
+Time Round 1: 16.0872143 ms
+Time Round 2: 30.2993258 ms
+Objective function = 11.635003910613865
+Time to compute objective function: 122 ms
 
 **********************************************************************
 
 
-File : /data/BDC2122/artificial9000.txt
-Number of points N = 9200
-Number of centers k = 10
-Number of outliers z = 150
-Number of partitions L = 4
-Time to read from file: 3334 ms
-Initial guess = 2.172818100992349
-Final guess = 2.172818100992349
-Number of guesses = 1
-Time Round 1: 16.6563712 ms
-Time Round 2: 7.3816011 ms
-Objective function = 12.366831647596731
-Time to compute objective function: 145 ms
-
-************************************************************************
 
 File : /data/BDC2122/artificial9000.txt
 Number of points N = 9200
-Number of centers k = 10
-Number of outliers z = 150
-Number of partitions L = 8
-Time to read from file: 3275 ms
-Initial guess = 1.9235156614906996
-Final guess = 1.9235156614906996
-Number of guesses = 1
-Time Round 1: 15.1610568 ms
-Time Round 2: 24.6740036 ms
-Objective function = 12.34727581290707
-Time to compute objective function: 131 ms
-
-************************************************************************
-
-File : /data/BDC2122/artificial9000.txt
-Number of points N = 9200
-Number of centers k = 10
-Number of outliers z = 150
+Number of centers k = 9
+Number of outliers z = 200
 Number of partitions L = 16
-Time to read from file: 3394 ms
-Initial guess = 1.6438826752539237
-Final guess = 1.6438826752539237
+Time to read from file: 3730 ms
+Initial guess = 1.2890230797002815
+Final guess = 1.2890230797002815
 Number of guesses = 1
-Time Round 1: 15.1253511 ms
-Time Round 2: 74.1752327 ms
-Objective function = 12.41385842516339
-Time to compute objective function: 164 ms
+Time Round 1: 18.0820186 ms
+Time Round 2: 98.728854 ms
+Objective function = 11.54758108869559
+Time to compute objective function: 166 ms
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
